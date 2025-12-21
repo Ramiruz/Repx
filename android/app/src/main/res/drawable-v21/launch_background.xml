@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Customized launch splash: gradient background + centered icon -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Gradient background matching app theme -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="45"
+                android:startColor="#00F6FF"
+                android:endColor="#5B00FF"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- (icon removed) Keep only gradient so Flutter shows animated logo -->
+
+</layer-list>
