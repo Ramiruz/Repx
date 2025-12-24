@@ -111,3 +111,4 @@ class SettingsService extends ChangeNotifier {
     print('✅ Configuraciones reseteadas');
   }
 }
+

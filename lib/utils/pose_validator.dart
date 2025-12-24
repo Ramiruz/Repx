@@ -456,3 +456,4 @@ class PoseValidator {
     return true; // Posición válida de plancha
   }
 }
+

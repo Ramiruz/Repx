@@ -178,3 +178,4 @@ class _PoseOverlayPainter extends CustomPainter {
         showQualityBar != oldDelegate.showQualityBar;
   }
 }
+

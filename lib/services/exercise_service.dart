@@ -170,3 +170,4 @@ class ExerciseService {
     print('🧹 Servicios de ejercicio liberados');
   }
 }
+

@@ -393,3 +393,4 @@ class PullUpProgressPainter extends CustomPainter {
         oldDelegate.progressAnimation.value != progressAnimation.value;
   }
 }
+

@@ -10,7 +10,7 @@ import '../services/pullup_workout_storage.dart';
 import '../models/pushup_session.dart';
 import '../models/pullup_session.dart';
 import '../models/pullup_workout.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 
 enum ExerciseFilter { all, pushups, pullups }
 
@@ -1054,3 +1054,4 @@ class _HistoryScreenNewState extends State<HistoryScreenNew> {
     }
   }
 }
+

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../utils/drawing_utils.dart';
 import '../services/settings_service.dart';
 import '../services/locale_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 
 /// Pantalla de configuración - Diseño moderno con opciones funcionales
 class SettingsScreen extends StatelessWidget {
@@ -468,3 +468,4 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
+

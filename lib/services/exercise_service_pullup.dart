@@ -103,3 +103,4 @@ class ExerciseServicePullUp {
     _poseDetector.dispose();
   }
 }
+

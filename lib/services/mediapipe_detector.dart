@@ -248,3 +248,4 @@ class MediaPipeDetector {
     print('🗑️ MediaPipe Detector liberado');
   }
 }
+

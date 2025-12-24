@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 import 'package:camera/camera.dart';
 import '../utils/app_colors.dart';
 import '../models/workout_config.dart';
@@ -942,3 +942,4 @@ class _BarCalibrationPainter extends CustomPainter {
         oldDelegate.isCalibrated != isCalibrated;
   }
 }
+

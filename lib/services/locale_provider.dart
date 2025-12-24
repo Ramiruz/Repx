@@ -32,3 +32,4 @@ class LocaleProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+

@@ -124,3 +124,4 @@ class SessionStorage {
     return streak;
   }
 }
+

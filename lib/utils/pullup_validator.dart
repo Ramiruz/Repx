@@ -128,3 +128,4 @@ class PullUpValidator {
     return quality.clamp(0.0, 100.0);
   }
 }
+

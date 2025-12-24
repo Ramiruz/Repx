@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../services/pullup_counter.dart';
 import '../services/exercise_service_pullup.dart';
@@ -1185,3 +1185,4 @@ class _PullUpExerciseScreenState extends State<PullUpExerciseScreen>
     );
   }
 }
+

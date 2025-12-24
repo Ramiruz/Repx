@@ -224,3 +224,4 @@ class MediaPipeDetectorPullUp {
     print('🗑️ [PullUp] MediaPipe Detector liberado');
   }
 }
+

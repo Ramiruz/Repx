@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 
 /// Tipos de ejercicios disponibles en la app
 enum ExerciseType {
@@ -65,3 +65,4 @@ extension ExerciseTypeExtension on ExerciseType {
     }
   }
 }
+

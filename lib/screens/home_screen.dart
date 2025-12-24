@@ -5,7 +5,8 @@ import 'exercise_selection_screen.dart';
 import 'history_screen_new.dart';
 import 'settings_screen.dart';
 import 'chatbot_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'fitness_test/fitness_test_navigator.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 
 /// Pantalla de inicio - Diseño premium minimalista profesional con animaciones
 class HomeScreen extends StatefulWidget {
@@ -204,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         const SizedBox(height: 24),
 
                         // Características
-                        _buildFeatures(),
+                        //_buildFeatures(),
                       ],
                     ),
                   ),
@@ -215,6 +216,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
+                      // Botón FITNESS TEST - Destacado
+                      _buildFitnessTestButton(context),
+                      const SizedBox(height: 12),
                       Row(
                         children: [
                           Expanded(
@@ -435,6 +439,90 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  Widget _buildFitnessTestButton(BuildContext context) {
+    return _AnimatedButton(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const FitnessTestNavigator(),
+          ),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.primaryPurple.withOpacity(0.3),
+              AppColors.primaryCyan.withOpacity(0.2),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.primaryPurple.withOpacity(0.5),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryPurple.withOpacity(0.2),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.primaryPurple.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(
+                Icons.fitness_center,
+                color: Colors.white,
+                size: 22,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'PRUEBA DE FITNESS',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                  ),
+                ),
+                Text(
+                  '3 ejercicios • 3 minutos',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: AppColors.primaryCyan,
+              size: 18,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildFeatures() {
     final l10n = AppLocalizations.of(context)!;
     return Row(
@@ -602,3 +690,4 @@ class ParticlesPainter extends CustomPainter {
   bool shouldRepaint(ParticlesPainter oldDelegate) =>
       animation != oldDelegate.animation;
 }
+

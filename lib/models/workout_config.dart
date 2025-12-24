@@ -34,3 +34,4 @@ class WorkoutConfig {
     return 'WorkoutConfig(reps: $repsPerSet, sets: $totalSets, rest: ${restTimeSeconds}s)';
   }
 }
+

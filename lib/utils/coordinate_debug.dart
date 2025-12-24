@@ -224,3 +224,4 @@ class CoordinateDebug {
     return totalError / validKeypoints.length;
   }
 }
+

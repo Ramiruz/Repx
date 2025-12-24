@@ -129,3 +129,4 @@ class _PullUpOverlayPainter extends CustomPainter {
         oldDelegate.formQuality != formQuality;
   }
 }
+

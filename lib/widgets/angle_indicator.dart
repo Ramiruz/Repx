@@ -76,3 +76,4 @@ class AngleIndicator extends StatelessWidget {
     );
   }
 }
+

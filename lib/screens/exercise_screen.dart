@@ -1,7 +1,7 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../services/pushup_counter.dart';
 import '../services/exercise_service.dart';
@@ -737,3 +737,4 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     // Si es false, no hace nada (continuar entrenando)
   }
 }
+

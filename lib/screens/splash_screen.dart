@@ -386,3 +386,4 @@ class _ParticlePainter extends CustomPainter {
     return oldDelegate.progress != progress || oldDelegate.count != count;
   }
 }
+

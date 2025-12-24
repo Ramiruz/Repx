@@ -129,3 +129,4 @@ class ExerciseStats {
     return 'ExerciseStats(sessions: $totalSessions, reps: $totalReps, avg: ${averageFormQuality.toStringAsFixed(1)}%, best: $bestStreak)';
   }
 }
+

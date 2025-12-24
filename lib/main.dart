@@ -7,7 +7,7 @@ import 'services/settings_service.dart';
 import 'services/locale_provider.dart';
 import 'screens/splash_screen.dart';
 import 'utils/drawing_utils.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 
 void main() async {
   // Asegurar que Flutter esté inicializado
@@ -67,3 +67,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

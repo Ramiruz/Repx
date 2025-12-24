@@ -187,3 +187,4 @@ class CameraService {
     return _controller!.description.lensDirection == CameraLensDirection.front;
   }
 }
+
