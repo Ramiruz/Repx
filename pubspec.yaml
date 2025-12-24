@@ -53,6 +53,9 @@ dependencies:
   # Persistencia de datos
   shared_preferences: ^2.2.2
 
+  # Image picker para cámara y galería
+  image_picker: ^1.0.7
+
   # Gráficas y estadísticas
   fl_chart: ^0.66.0
 

@@ -46,6 +46,8 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>La aplicación necesita acceso a la cámara para detectar tu postura durante las flexiones.</string>
+	<string>La aplicación necesita acceso a la cámara para detectar tu postura durante las flexiones y analizar imágenes de comida o equipamiento de gimnasio.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>La aplicación necesita acceso a la galería para seleccionar imágenes de comida o equipamiento de gimnasio para su análisis.</string>
 </dict>
 </plist>
