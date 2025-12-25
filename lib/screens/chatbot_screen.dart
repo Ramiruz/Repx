@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import '../utils/app_colors.dart';
 import 'package:REPX/l10n/app_localizations.dart';
 
@@ -34,6 +35,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
   
   late String _sessionId;
   static const String _sessionIdKey = 'fitness_chat_session_id';
+  static const String _messagesKey = 'fitness_chat_messages';
 
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
@@ -61,42 +63,9 @@ class _ChatbotScreenState extends State<ChatbotScreen>
     _pulseAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-
-    // Mensaje de bienvenida - se carga después para tener contexto
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (!mounted) return;
-        final l10n = AppLocalizations.of(context)!;
-        final locale = l10n.localeName;
-
-        final welcomeMessage = locale == 'es'
-            ? '¡Hola! 👋 Soy tu entrenador personal con IA.\n\n'
-                'Puedo ayudarte con:\n'
-                '• Crear rutinas personalizadas\n'
-                '• Evaluar tu nivel de entrenamiento\n'
-                '• Técnicas de ejercicios\n'
-                '• Consejos de nutrición y recuperación\n\n'
-                '📸 También puedes enviarme fotos de:\n'
-                '• **Comida** - Te daré el análisis nutricional\n'
-                '• **Máquinas de gym** - Te explicaré cómo usarlas\n\n'
-                '¡Pregúntame lo que quieras!'
-            : 'Hello! 👋 I\'m your AI personal trainer.\n\n'
-                'I can help you with:\n'
-                '• Creating personalized routines\n'
-                '• Assessing your training level\n'
-                '• Exercise techniques\n'
-                '• Nutrition and recovery tips\n\n'
-                '📸 You can also send me photos of:\n'
-                '• **Food** - I\'ll give you nutritional analysis\n'
-                '• **Gym machines** - I\'ll explain how to use them\n\n'
-                'Ask me anything!';
-
-        _addBotMessage(welcomeMessage);
-      });
-    });
   }
 
-  /// Inicializa o recupera el sessionId persistente
+  /// Inicializa o recupera el sessionId persistente y carga mensajes guardados
   Future<void> _initializeSession() async {
     final prefs = await SharedPreferences.getInstance();
     String? savedSessionId = prefs.getString(_sessionIdKey);
@@ -109,6 +78,80 @@ class _ChatbotScreenState extends State<ChatbotScreen>
     setState(() {
       _sessionId = savedSessionId!;
     });
+    
+    // Cargar mensajes guardados
+    await _loadMessages();
+  }
+  
+  /// Carga los mensajes guardados desde SharedPreferences
+  Future<void> _loadMessages() async {
+    final prefs = await SharedPreferences.getInstance();
+    final messagesJson = prefs.getString(_messagesKey);
+    
+    bool hasMessages = false;
+    
+    if (messagesJson != null && messagesJson.isNotEmpty) {
+      try {
+        final List<dynamic> decoded = jsonDecode(messagesJson);
+        final loadedMessages = decoded.map((m) => ChatMessage.fromJson(m as Map<String, dynamic>)).toList();
+        
+        if (mounted && loadedMessages.isNotEmpty) {
+          setState(() {
+            _messages.clear();
+            _messages.addAll(loadedMessages);
+          });
+          hasMessages = true;
+          _scrollToBottom();
+        }
+      } catch (e) {
+        // Si hay error al decodificar, ignorar los mensajes guardados
+      }
+    }
+    
+    // Solo mostrar mensaje de bienvenida si no hay mensajes guardados
+    if (!hasMessages && mounted) {
+      _showWelcomeMessage();
+    }
+  }
+  
+  /// Muestra el mensaje de bienvenida del bot
+  void _showWelcomeMessage() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      final locale = l10n.localeName;
+
+      final welcomeMessage = locale == 'es'
+          ? '¡Hola! 👋 Soy tu entrenador personal con IA.\n\n'
+              'Puedo ayudarte con:\n'
+              '• Crear rutinas personalizadas\n'
+              '• Evaluar tu nivel de entrenamiento\n'
+              '• Técnicas de ejercicios\n'
+              '• Consejos de nutrición y recuperación\n\n'
+              '📸 También puedes enviarme fotos de:\n'
+              '• **Comida** - Te daré el análisis nutricional\n'
+              '• **Máquinas de gym** - Te explicaré cómo usarlas\n\n'
+              '¡Pregúntame lo que quieras!'
+          : 'Hello! 👋 I\'m your AI personal trainer.\n\n'
+              'I can help you with:\n'
+              '• Creating personalized routines\n'
+              '• Assessing your training level\n'
+              '• Exercise techniques\n'
+              '• Nutrition and recovery tips\n\n'
+              '📸 You can also send me photos of:\n'
+              '• **Food** - I\'ll give you nutritional analysis\n'
+              '• **Gym machines** - I\'ll explain how to use them\n\n'
+              'Ask me anything!';
+
+      _addBotMessage(welcomeMessage);
+    });
+  }
+  
+  /// Guarda los mensajes en SharedPreferences
+  Future<void> _saveMessages() async {
+    final prefs = await SharedPreferences.getInstance();
+    final messagesJson = jsonEncode(_messages.map((m) => m.toJson()).toList());
+    await prefs.setString(_messagesKey, messagesJson);
   }
 
   /// Limpia el historial y genera nuevo sessionId
@@ -116,6 +159,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
     final prefs = await SharedPreferences.getInstance();
     final newSessionId = const Uuid().v4().replaceAll('-', '');
     await prefs.setString(_sessionIdKey, newSessionId);
+    await prefs.remove(_messagesKey); // Limpiar mensajes guardados
     
     setState(() {
       _sessionId = newSessionId;
@@ -132,6 +176,9 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       );
+      
+      // Mostrar mensaje de bienvenida para iniciar nueva conversación
+      _showWelcomeMessage();
     }
   }
 
@@ -160,6 +207,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           analysis: analysis,
         ));
       });
+      _saveMessages(); // Persistir mensajes
       _scrollToBottom();
     });
   }
@@ -174,6 +222,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         isUser: true,
       ));
     });
+    _saveMessages(); // Persistir mensajes
     _scrollToBottom();
 
     // Enviar mensaje de texto al backend
@@ -244,6 +293,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           _isTyping = false;
           _messages.add(ChatMessage(text: botMessage, isUser: false));
         });
+        _saveMessages(); // Persistir mensajes
       } else {
         _handleError('Error del servidor: ${response.statusCode}');
       }
@@ -360,6 +410,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           analysis: analysis,
         ));
       });
+      _saveMessages();
     } else if (type == 'gym_equipment' || responseData.containsKey('machine_name') || responseData.containsKey('exercises')) {
       // Análisis de equipamiento de gym
       final targetMuscles = (responseData['target_muscles'] as List?)?.map((m) => m.toString()).toList();
@@ -379,6 +430,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           analysis: analysis,
         ));
       });
+      _saveMessages();
     } else if (type == 'text_only' || responseData.containsKey('user_answer')) {
       // Respuesta de texto del chatbot
       String message = responseData['user_answer'] ?? responseData['message'] ?? responseData['output'] ?? '';
@@ -386,15 +438,16 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         setState(() {
           _messages.add(ChatMessage(text: message, isUser: false));
         });
+        _saveMessages();
       }
     } else {
       // Respuesta de texto normal (fallback)
-      String message = responseData['output'] ?? responseData['message'] ?? responseData['text'] ?? jsonEncode(responseData);
+      String fallbackMessage = responseData['output'] ?? responseData['message'] ?? responseData['text'] ?? jsonEncode(responseData);
       setState(() {
-        _messages.add(ChatMessage(text: message, isUser: false));
+        _messages.add(ChatMessage(text: fallbackMessage, isUser: false));
       });
+      _saveMessages();
     }
-    
     _scrollToBottom();
   }
 
@@ -409,6 +462,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         isUser: false,
       ));
     });
+    _saveMessages();
   }
 
   /// Muestra bottom sheet para seleccionar cámara o galería
@@ -555,6 +609,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
             imageBytes: bytes,
           ));
         });
+        _saveMessages(); // Persistir mensaje de imagen
         _scrollToBottom();
         
         // Enviar al backend
@@ -870,13 +925,62 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                       width: 1,
                     ),
                   ),
-                  child: Text(
-                    message.text,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
-                      fontSize: 14,
-                      height: 1.4,
+                  child: MarkdownBody(
+                    data: message.text,
+                    styleSheet: MarkdownStyleSheet(
+                      p: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontSize: 14,
+                        height: 1.4,
+                      ),
+                      h1: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        height: 1.4,
+                      ),
+                      h2: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        height: 1.4,
+                      ),
+                      h3: TextStyle(
+                        color: Colors.white.withOpacity(0.95),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        height: 1.4,
+                      ),
+                      strong: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      em: TextStyle(
+                        color: Colors.white.withOpacity(0.9),
+                        fontStyle: FontStyle.italic,
+                      ),
+                      listBullet: TextStyle(
+                        color: AppColors.primaryCyan,
+                        fontSize: 14,
+                      ),
+                      listIndent: 16.0,
+                      blockSpacing: 8.0,
+                      a: TextStyle(
+                        color: AppColors.primaryCyan,
+                        decoration: TextDecoration.underline,
+                      ),
+                      code: TextStyle(
+                        color: AppColors.primaryCyan,
+                        backgroundColor: Colors.white.withOpacity(0.1),
+                        fontFamily: 'monospace',
+                        fontSize: 13,
+                      ),
+                      codeblockDecoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
+                    selectable: true,
                   ),
                 ),
                 // Mostrar card de análisis si existe
@@ -1082,17 +1186,18 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                 // Macros del alimento
                 if (food.calories != null) ...[
                   const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      const SizedBox(width: 16),
-                      _buildSmallMacro('${food.calories}', 'kcal'),
-                      const SizedBox(width: 12),
-                      if (food.protein != null) _buildSmallMacro('${food.protein!.toStringAsFixed(0)}g', 'prot'),
-                      const SizedBox(width: 12),
-                      if (food.carbs != null) _buildSmallMacro('${food.carbs!.toStringAsFixed(0)}g', 'carbs'),
-                      const SizedBox(width: 12),
-                      if (food.fat != null) _buildSmallMacro('${food.fat!.toStringAsFixed(0)}g', 'grasa'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      children: [
+                        _buildSmallMacro('${food.calories}', 'kcal'),
+                        if (food.protein != null) _buildSmallMacro('${food.protein!.toStringAsFixed(0)}g', 'prot'),
+                        if (food.carbs != null) _buildSmallMacro('${food.carbs!.toStringAsFixed(0)}g', 'carbs'),
+                        if (food.fat != null) _buildSmallMacro('${food.fat!.toStringAsFixed(0)}g', 'grasa'),
+                      ],
+                    ),
                   ),
                 ],
               ],
@@ -1530,6 +1635,26 @@ class ChatMessage {
     this.imageBytes,
     this.analysis,
   }) : timestamp = timestamp ?? DateTime.now();
+  
+  /// Convierte el mensaje a JSON para persistencia
+  Map<String, dynamic> toJson() {
+    return {
+      'text': text,
+      'isUser': isUser,
+      'timestamp': timestamp.toIso8601String(),
+      // No persistimos imageBytes para evitar archivos muy grandes
+      // No persistimos analysis ya que es complejo y temporal
+    };
+  }
+  
+  /// Crea un ChatMessage desde JSON
+  factory ChatMessage.fromJson(Map<String, dynamic> json) {
+    return ChatMessage(
+      text: json['text'] as String,
+      isUser: json['isUser'] as bool,
+      timestamp: DateTime.parse(json['timestamp'] as String),
+    );
+  }
 }
 
 /// Tipos de análisis soportados

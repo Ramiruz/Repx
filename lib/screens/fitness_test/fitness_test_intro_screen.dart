@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 import '../../utils/app_colors.dart';
 import '../../models/fitness_test/fitness_test_state.dart';
 
@@ -14,13 +15,15 @@ class FitnessTestIntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: SafeArea(
         child: Column(
           children: [
             // Header
-            _buildHeader(context),
+            _buildHeader(context, l10n),
 
             // Instrucciones scrollables
             Expanded(
@@ -30,33 +33,33 @@ class FitnessTestIntroScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 16),
-                    _buildIntroText(),
+                    _buildIntroText(l10n),
                     const SizedBox(height: 24),
                     _buildExerciseCard(
                       number: '1',
                       emoji: FitnessTestExerciseType.pushup.emoji,
-                      title: 'FLEXIONES (Push-ups)',
-                      duration: '60 segundos - Máximo de reps',
-                      technique: 'Cuerpo recto, brazos flexionados 90°',
+                      title: l10n.pushupExercise,
+                      duration: l10n.maxReps60Seconds,
+                      technique: l10n.pushupTechnique,
                     ),
-                    _buildRestCard(number: '2'),
+                    _buildRestCard(number: '2', l10n: l10n),
                     _buildExerciseCard(
                       number: '3',
                       emoji: FitnessTestExerciseType.squat.emoji,
-                      title: 'SENTADILLAS (Squats)',
-                      duration: '60 segundos - Máximo de reps',
-                      technique: 'Cadera hacia atrás, rodillas paralelas',
+                      title: l10n.squatExercise,
+                      duration: l10n.maxReps60Seconds,
+                      technique: l10n.squatTechnique,
                     ),
-                    _buildRestCard(number: '4'),
+                    _buildRestCard(number: '4', l10n: l10n),
                     _buildExerciseCard(
                       number: '5',
                       emoji: FitnessTestExerciseType.abdominal.emoji,
-                      title: 'ABDOMINALES (Crunches)',
-                      duration: '60 segundos - Máximo de reps',
-                      technique: 'Levanta hombros hacia caderas, cuello recto',
+                      title: l10n.abdominalExercise,
+                      duration: l10n.maxReps60Seconds,
+                      technique: l10n.abdominalTechnique,
                     ),
                     const SizedBox(height: 24),
-                    _buildImportantNote(),
+                    _buildImportantNote(l10n),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -64,14 +67,14 @@ class FitnessTestIntroScreen extends StatelessWidget {
             ),
 
             // Botones de acción
-            _buildActionButtons(context),
+            _buildActionButtons(context, l10n),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -90,10 +93,10 @@ class FitnessTestIntroScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          const Expanded(
+          Expanded(
             child: Text(
-              'PRUEBA DE FITNESS',
-              style: TextStyle(
+              l10n.fitnessTest,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -108,7 +111,7 @@ class FitnessTestIntroScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIntroText() {
+  Widget _buildIntroText(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -125,9 +128,9 @@ class FitnessTestIntroScreen extends StatelessWidget {
             children: [
               Icon(Icons.info_outline, color: AppColors.primaryCyan, size: 24),
               const SizedBox(width: 12),
-              const Text(
-                'Instrucciones',
-                style: TextStyle(
+              Text(
+                l10n.instructions,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -137,7 +140,7 @@ class FitnessTestIntroScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'Esta prueba mide tu nivel físico en 3 minutos, evaluando 3 ejercicios consecutivos con períodos de descanso entre cada uno.',
+            l10n.instructionsDesc,
             style: TextStyle(
               color: Colors.white.withOpacity(0.8),
               fontSize: 14,
@@ -220,7 +223,7 @@ class FitnessTestIntroScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Técnica: $technique',
+                  technique,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.7),
                     fontSize: 12,
@@ -234,7 +237,7 @@ class FitnessTestIntroScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRestCard({required String number}) {
+  Widget _buildRestCard({required String number, required AppLocalizations l10n}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -268,9 +271,9 @@ class FitnessTestIntroScreen extends StatelessWidget {
           const SizedBox(width: 12),
           const Text('🧘', style: TextStyle(fontSize: 20)),
           const SizedBox(width: 8),
-          const Text(
-            'RECESO - 30 segundos',
-            style: TextStyle(
+          Text(
+            l10n.restBreak,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -281,7 +284,7 @@ class FitnessTestIntroScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildImportantNote() {
+  Widget _buildImportantNote(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -299,9 +302,9 @@ class FitnessTestIntroScreen extends StatelessWidget {
               Icon(Icons.warning_amber_rounded, 
                    color: AppColors.warningYellow, size: 24),
               const SizedBox(width: 12),
-              const Text(
-                'IMPORTANTE',
-                style: TextStyle(
+              Text(
+                l10n.important,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -310,10 +313,10 @@ class FitnessTestIntroScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          _buildBulletPoint('Asegúrate de tener buena iluminación'),
-          _buildBulletPoint('Colócate de frente a la cámara'),
-          _buildBulletPoint('Todo tu cuerpo debe ser visible'),
-          _buildBulletPoint('Usa ropa cómoda para hacer ejercicio'),
+          _buildBulletPoint(l10n.goodLighting),
+          _buildBulletPoint(l10n.faceCamera),
+          _buildBulletPoint(l10n.fullBodyVisible),
+          _buildBulletPoint(l10n.comfortableClothing),
         ],
       ),
     );
@@ -340,83 +343,116 @@ class FitnessTestIntroScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
+  Widget _buildActionButtons(BuildContext context, AppLocalizations l10n) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
       decoration: BoxDecoration(
-        color: AppColors.cardBg,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.cardBg.withOpacity(0.95),
+            AppColors.darkBg,
+          ],
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
+            color: Colors.black.withOpacity(0.4),
+            blurRadius: 20,
+            offset: const Offset(0, -10),
           ),
         ],
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Botón ENTENDIDO (volver)
-          Expanded(
-            child: OutlinedButton(
-              onPressed: () => Navigator.of(context).pop(),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                side: BorderSide(color: Colors.white.withOpacity(0.3)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+          // Botón principal COMENZAR (ACEPTAR)
+          Container(
+            width: double.infinity,
+            height: 56,
+            decoration: BoxDecoration(
+              gradient: AppColors.primaryGradient,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primaryCyan.withOpacity(0.5),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                  spreadRadius: -4,
                 ),
-              ),
-              child: const Text(
-                'ENTENDIDO',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              ],
             ),
-          ),
-          const SizedBox(width: 16),
-          // Botón ACEPTAR (iniciar)
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: AppColors.primaryGradient,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primaryCyan.withOpacity(0.4),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: ElevatedButton(
-                onPressed: onStartTest,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Row(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onStartTest,
+                borderRadius: BorderRadius.circular(16),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.play_arrow, color: Colors.white),
-                    SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
                     Text(
-                      'ACEPTAR',
-                      style: TextStyle(
+                      l10n.accept,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
                       ),
                     ),
                   ],
                 ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          // Botón secundario VOLVER (ENTENDIDO)
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.05),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(
+                    color: Colors.white.withOpacity(0.15),
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Colors.white.withOpacity(0.7),
+                    size: 16,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    l10n.understood,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.7),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -425,4 +461,3 @@ class FitnessTestIntroScreen extends StatelessWidget {
     );
   }
 }
-

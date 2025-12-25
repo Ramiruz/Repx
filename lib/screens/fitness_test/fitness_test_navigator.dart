@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 import '../../models/fitness_test/fitness_test_state.dart';
 import '../../models/fitness_test/fitness_test_result.dart';
 import '../../services/fitness_test/fitness_test_controller.dart';
@@ -73,23 +74,36 @@ class _FitnessTestNavigatorState extends State<FitnessTestNavigator> {
     super.dispose();
   }
 
+  String _getExerciseName(FitnessTestExerciseType type, AppLocalizations l10n) {
+    switch (type) {
+      case FitnessTestExerciseType.pushup:
+        return l10n.flexiones;
+      case FitnessTestExerciseType.squat:
+        return l10n.sentadillas;
+      case FitnessTestExerciseType.abdominal:
+        return l10n.abdominales;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     if (!_isInitialized) {
-      return _buildLoadingScreen();
+      return _buildLoadingScreen(l10n);
     }
 
     return ChangeNotifierProvider<FitnessTestController>.value(
       value: _controller,
       child: Consumer<FitnessTestController>(
         builder: (context, controller, _) {
-          return _buildCurrentScreen(controller.state.currentPhase);
+          return _buildCurrentScreen(controller.state.currentPhase, l10n);
         },
       ),
     );
   }
 
-  Widget _buildLoadingScreen() {
+  Widget _buildLoadingScreen(AppLocalizations l10n) {
     return Scaffold(
       backgroundColor: const Color(0xFF0A0E27),
       body: Center(
@@ -101,7 +115,7 @@ class _FitnessTestNavigatorState extends State<FitnessTestNavigator> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Preparando Fitness Test...',
+              l10n.preparingFitnessTest,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.8),
                 fontSize: 16,
@@ -113,7 +127,7 @@ class _FitnessTestNavigatorState extends State<FitnessTestNavigator> {
     );
   }
 
-  Widget _buildCurrentScreen(FitnessTestPhase phase) {
+  Widget _buildCurrentScreen(FitnessTestPhase phase, AppLocalizations l10n) {
     switch (phase) {
       case FitnessTestPhase.intro:
         return FitnessTestIntroScreen(
@@ -133,7 +147,7 @@ class _FitnessTestNavigatorState extends State<FitnessTestNavigator> {
       case FitnessTestPhase.rest1:
         return RestScreen(
           remainingSeconds: _controller.state.remainingSeconds,
-          nextExerciseName: 'SENTADILLAS',
+          nextExerciseName: l10n.sentadillas,
           isSecondRest: false,
           onSkip: () {
             _controller.skipRest();
@@ -149,7 +163,7 @@ class _FitnessTestNavigatorState extends State<FitnessTestNavigator> {
       case FitnessTestPhase.rest2:
         return RestScreen(
           remainingSeconds: _controller.state.remainingSeconds,
-          nextExerciseName: 'ABDOMINALES',
+          nextExerciseName: l10n.abdominales,
           isSecondRest: true,
           onSkip: () {
             _controller.skipRest();
@@ -173,9 +187,9 @@ class _FitnessTestNavigatorState extends State<FitnessTestNavigator> {
             await _controller.saveResult(_result!);
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('✅ Resultado guardado'),
-                  backgroundColor: Color(0xFF06FFA5),
+                SnackBar(
+                  content: Text('✅ ${l10n.resultSaved}'),
+                  backgroundColor: const Color(0xFF06FFA5),
                 ),
               );
             }
@@ -183,8 +197,8 @@ class _FitnessTestNavigatorState extends State<FitnessTestNavigator> {
           onShare: () {
             // TODO: Implementar compartir
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('📤 Función de compartir próximamente'),
+              SnackBar(
+                content: Text('📤 ${l10n.shareComingSoon}'),
               ),
             );
           },
@@ -195,4 +209,3 @@ class _FitnessTestNavigatorState extends State<FitnessTestNavigator> {
     }
   }
 }
-

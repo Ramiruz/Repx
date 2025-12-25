@@ -59,6 +59,9 @@ dependencies:
   # Gráficas y estadísticas
   fl_chart: ^0.66.0
 
+  # Markdown rendering for chat messages
+  flutter_markdown: ^0.7.6
+
   # Calendario
   table_calendar: ^3.0.9
 

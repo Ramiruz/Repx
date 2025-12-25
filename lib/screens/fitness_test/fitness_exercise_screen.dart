@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 import '../../utils/app_colors.dart';
 import '../../models/fitness_test/fitness_test_state.dart';
 import '../../models/pose_keypoint.dart';
@@ -122,8 +123,21 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
     super.dispose();
   }
 
+  String _getExerciseDisplayName(AppLocalizations l10n) {
+    switch (widget.exerciseType) {
+      case FitnessTestExerciseType.pushup:
+        return l10n.flexiones;
+      case FitnessTestExerciseType.squat:
+        return l10n.sentadillas;
+      case FitnessTestExerciseType.abdominal:
+        return l10n.abdominales;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: Consumer<FitnessTestController>(
@@ -135,20 +149,20 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
               _buildCameraPreview(controller),
 
               // Overlay superior con timer y título
-              _buildTopOverlay(controller),
+              _buildTopOverlay(controller, l10n),
 
               // Mini vista del skeleton (debajo del timer)
               _buildSkeletonMiniPreview(controller),
 
               // Panel de estadísticas
-              _buildStatsPanel(controller),
+              _buildStatsPanel(controller, l10n),
 
               // Indicador de fase
-              _buildPhaseIndicator(controller),
+              _buildPhaseIndicator(controller, l10n),
 
               // Mensaje motivacional (último ejercicio)
               if (widget.exerciseType == FitnessTestExerciseType.abdominal)
-                _buildMotivationalBanner(),
+                _buildMotivationalBanner(l10n),
             ],
           );
         },
@@ -223,7 +237,7 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
     );
   }
 
-  Widget _buildTopOverlay(FitnessTestController controller) {
+  Widget _buildTopOverlay(FitnessTestController controller, AppLocalizations l10n) {
     final remainingSeconds = controller.state.remainingSeconds;
     final minutes = remainingSeconds ~/ 60;
     final seconds = remainingSeconds % 60;
@@ -303,7 +317,7 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      widget.exerciseType.displayName,
+                      _getExerciseDisplayName(l10n),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -321,7 +335,7 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
     );
   }
 
-  Widget _buildStatsPanel(FitnessTestController controller) {
+  Widget _buildStatsPanel(FitnessTestController controller, AppLocalizations l10n) {
     return Positioned(
       right: 20,
       top: 100,
@@ -345,7 +359,7 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
           children: [
             // Contador de reps
             Text(
-              'REPETICIONES',
+              l10n.repetitions,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.7),
                 fontSize: 12,
@@ -364,7 +378,7 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
             const SizedBox(height: 12),
             // Calidad
             Text(
-              'CALIDAD',
+              l10n.quality,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.7),
                 fontSize: 12,
@@ -386,7 +400,7 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
     );
   }
 
-  Widget _buildPhaseIndicator(FitnessTestController controller) {
+  Widget _buildPhaseIndicator(FitnessTestController controller, AppLocalizations l10n) {
     return Positioned(
       bottom: 20,
       left: 20,
@@ -407,7 +421,7 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
             ),
             const SizedBox(width: 8),
             Text(
-              'ESTADO: ${controller.counterEngine.phaseMessage}',
+              '${l10n.state}: ${controller.counterEngine.phaseMessage}',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -420,7 +434,7 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
     );
   }
 
-  Widget _buildMotivationalBanner() {
+  Widget _buildMotivationalBanner(AppLocalizations l10n) {
     return Positioned(
       left: 20,
       top: 100,
@@ -435,14 +449,14 @@ class _FitnessExerciseScreenState extends State<FitnessExerciseScreen>
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('💪', style: TextStyle(fontSize: 20)),
-            SizedBox(width: 8),
+            const Text('💪', style: TextStyle(fontSize: 20)),
+            const SizedBox(width: 8),
             Text(
-              '¡ÚLTIMO EJERCICIO - TÚ PUEDES!',
-              style: TextStyle(
+              l10n.lastExerciseMotivation,
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 import '../../utils/app_colors.dart';
 import '../../models/fitness_test/fitness_test_state.dart';
 
@@ -26,6 +27,7 @@ class RestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -49,9 +51,9 @@ class RestScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Título
-              const Text(
-                'DESCANSA Y ESTIRA',
-                style: TextStyle(
+              Text(
+                l10n.restAndStretch,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -65,15 +67,15 @@ class RestScreen extends StatelessWidget {
               const SizedBox(height: 40),
 
               // Mensaje motivacional
-              _buildMotivationalMessage(),
+              _buildMotivationalMessage(l10n),
               const SizedBox(height: 24),
 
               // Próximo ejercicio
-              if (nextExerciseName != null) _buildNextExerciseInfo(),
+              if (nextExerciseName != null) _buildNextExerciseInfo(l10n),
               const SizedBox(height: 40),
 
               // Botón saltar
-              if (onSkip != null) _buildSkipButton(),
+              if (onSkip != null) _buildSkipButton(l10n),
             ],
           ),
         ),
@@ -129,14 +131,14 @@ class RestScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMotivationalMessage() {
+  Widget _buildMotivationalMessage(AppLocalizations l10n) {
     final message = isSecondRest
-        ? '🧘 Descansa, estira tus piernas'
-        : '🧘 Descansa, estira tus brazos';
+        ? '🧘 ${l10n.restStretchLegs}'
+        : '🧘 ${l10n.restStretchArms}';
 
     final subMessage = isSecondRest
-        ? 'Preparándote para el último ejercicio...'
-        : 'Preparándote para el siguiente ejercicio...';
+        ? l10n.preparingLastExercise
+        : l10n.preparingNextExercise;
 
     return Column(
       children: [
@@ -160,7 +162,7 @@ class RestScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildNextExerciseInfo() {
+  Widget _buildNextExerciseInfo(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
@@ -179,9 +181,9 @@ class RestScreen extends StatelessWidget {
             size: 24,
           ),
           const SizedBox(width: 12),
-          const Text(
-            'Siguiente: ',
-            style: TextStyle(
+          Text(
+            l10n.nextExercise,
+            style: const TextStyle(
               color: Colors.white70,
               fontSize: 16,
             ),
@@ -199,16 +201,16 @@ class RestScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSkipButton() {
+  Widget _buildSkipButton(AppLocalizations l10n) {
     return TextButton.icon(
       onPressed: onSkip,
       icon: const Icon(
         Icons.skip_next,
         color: Colors.white54,
       ),
-      label: const Text(
-        'SALTAR RECESO',
-        style: TextStyle(
+      label: Text(
+        l10n.skipRest,
+        style: const TextStyle(
           color: Colors.white54,
           fontSize: 14,
           letterSpacing: 1,
@@ -218,10 +220,9 @@ class RestScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: Colors.white24),
+          side: const BorderSide(color: Colors.white24),
         ),
       ),
     );
   }
 }
-

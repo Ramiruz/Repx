@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 import '../../utils/app_colors.dart';
 import '../../models/fitness_test/fitness_test_result.dart';
 import '../../models/fitness_test/fitness_level.dart';
@@ -30,13 +31,15 @@ class FitnessTestSummaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: SafeArea(
         child: Column(
           children: [
             // Header con nivel
-            _buildHeader(),
+            _buildHeader(l10n),
 
             // Resultados scrollables
             Expanded(
@@ -48,31 +51,34 @@ class FitnessTestSummaryScreen extends StatelessWidget {
                     // Tarjetas de ejercicios
                     _buildExerciseCard(
                       emoji: FitnessTestExerciseType.pushup.emoji,
-                      name: 'FLEXIONES',
+                      name: l10n.flexiones,
                       reps: result.pushupCount,
                       quality: result.pushupQuality,
                       status: result.pushupStatus,
+                      l10n: l10n,
                     ),
                     _buildExerciseCard(
                       emoji: FitnessTestExerciseType.squat.emoji,
-                      name: 'SENTADILLAS',
+                      name: l10n.sentadillas,
                       reps: result.squatCount,
                       quality: result.squatQuality,
                       status: result.squatStatus,
+                      l10n: l10n,
                     ),
                     _buildExerciseCard(
                       emoji: FitnessTestExerciseType.abdominal.emoji,
-                      name: 'ABDOMINALES',
+                      name: l10n.abdominales,
                       reps: result.abdominalCount,
                       quality: result.abdominalQuality,
                       status: result.abdominalStatus,
+                      l10n: l10n,
                     ),
                     const SizedBox(height: 16),
                     // Resumen total
-                    _buildTotalCard(),
+                    _buildTotalCard(context, l10n),
                     const SizedBox(height: 16),
                     // Sugerencias
-                    _buildSuggestionsCard(),
+                    _buildSuggestionsCard(l10n),
                     const SizedBox(height: 24),
                   ],
                 ),
@@ -80,14 +86,14 @@ class FitnessTestSummaryScreen extends StatelessWidget {
             ),
 
             // Botones de acción
-            _buildActionButtons(context),
+            _buildActionButtons(context, l10n),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(AppLocalizations l10n) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -108,9 +114,9 @@ class FitnessTestSummaryScreen extends StatelessWidget {
             children: [
               const Text('🏆', style: TextStyle(fontSize: 32)),
               const SizedBox(width: 12),
-              const Text(
-                'RESULTADOS',
-                style: TextStyle(
+              Text(
+                l10n.results,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -140,7 +146,7 @@ class FitnessTestSummaryScreen extends StatelessWidget {
                 Text(result.level.emoji, style: const TextStyle(fontSize: 24)),
                 const SizedBox(width: 8),
                 Text(
-                  'NIVEL ${result.level.displayName}',
+                  '${l10n.level} ${result.level.displayName}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -161,6 +167,7 @@ class FitnessTestSummaryScreen extends StatelessWidget {
     required int reps,
     required double quality,
     required String status,
+    required AppLocalizations l10n,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -202,14 +209,14 @@ class FitnessTestSummaryScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Calidad: ${(quality * 100).toStringAsFixed(0)}%',
+                  '${l10n.qualityLabel}: ${(quality * 100).toStringAsFixed(0)}%',
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.7),
                     fontSize: 13,
                   ),
                 ),
                 Text(
-                  'Estado: $status',
+                  '${l10n.statusLabel}: $status',
                   style: TextStyle(
                     color: _getStatusColor(status),
                     fontSize: 13,
@@ -230,7 +237,7 @@ class FitnessTestSummaryScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                'reps',
+                l10n.reps.toLowerCase(),
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.6),
                   fontSize: 12,
@@ -243,8 +250,9 @@ class FitnessTestSummaryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTotalCard() {
-    final dateFormat = DateFormat('dd MMM yyyy', 'es');
+  Widget _buildTotalCard(BuildContext context, AppLocalizations l10n) {
+    final locale = Localizations.localeOf(context).languageCode;
+    final dateFormat = DateFormat('dd MMM yyyy', locale);
     
     return Container(
       padding: const EdgeInsets.all(16),
@@ -267,19 +275,19 @@ class FitnessTestSummaryScreen extends StatelessWidget {
             children: [
               _buildTotalStat(
                 icon: Icons.fitness_center,
-                label: 'TOTAL',
+                label: l10n.totalLabel,
                 value: '${result.totalReps}',
-                unit: 'reps',
+                unit: l10n.reps.toLowerCase(),
               ),
               _buildTotalStat(
                 icon: Icons.star,
-                label: 'NIVEL',
+                label: l10n.levelLabel,
                 value: result.level.displayName,
                 unit: '',
               ),
               _buildTotalStat(
                 icon: Icons.calendar_today,
-                label: 'FECHA',
+                label: l10n.dateLabel,
                 value: dateFormat.format(result.timestamp),
                 unit: '',
                 smallValue: true,
@@ -331,7 +339,7 @@ class FitnessTestSummaryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSuggestionsCard() {
+  Widget _buildSuggestionsCard(AppLocalizations l10n) {
     if (result.suggestions.isEmpty) return const SizedBox.shrink();
 
     return Container(
@@ -352,9 +360,9 @@ class FitnessTestSummaryScreen extends StatelessWidget {
               Icon(Icons.lightbulb_outline, 
                    color: AppColors.warningYellow, size: 24),
               const SizedBox(width: 8),
-              const Text(
-                'SUGERENCIAS PARA MEJORAR',
-                style: TextStyle(
+              Text(
+                l10n.suggestionsToImprove,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -388,7 +396,7 @@ class FitnessTestSummaryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
+  Widget _buildActionButtons(BuildContext context, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -407,7 +415,7 @@ class FitnessTestSummaryScreen extends StatelessWidget {
           Expanded(
             child: _buildActionButton(
               icon: Icons.save_alt,
-              label: 'GUARDAR',
+              label: l10n.save,
               onPressed: onSave,
               isPrimary: true,
             ),
@@ -418,7 +426,7 @@ class FitnessTestSummaryScreen extends StatelessWidget {
             Expanded(
               child: _buildActionButton(
                 icon: Icons.share,
-                label: 'COMPARTIR',
+                label: l10n.share,
                 onPressed: onShare!,
               ),
             ),
@@ -484,7 +492,7 @@ class FitnessTestSummaryScreen extends StatelessWidget {
         ),
       ),
       style: OutlinedButton.styleFrom(
-        side: BorderSide(color: Colors.white24),
+        side: const BorderSide(color: Colors.white24),
         padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -494,10 +502,9 @@ class FitnessTestSummaryScreen extends StatelessWidget {
   }
 
   Color _getStatusColor(String status) {
-    if (status.contains('Excelente')) return AppColors.successGreen;
-    if (status.contains('Muy Bien')) return AppColors.successGreen;
-    if (status.contains('Bien')) return AppColors.warningYellow;
+    if (status.contains('Excelente') || status.contains('Excellent')) return AppColors.successGreen;
+    if (status.contains('Muy Bien') || status.contains('Very Good')) return AppColors.successGreen;
+    if (status.contains('Bien') || status.contains('Good')) return AppColors.warningYellow;
     return AppColors.errorPink;
   }
 }
-
