@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../services/pullup_counter.dart';
 import '../utils/app_colors.dart';
+import 'package:REPX/l10n/app_localizations.dart';
 
 /// Barra diagonal premium que muestra el progreso del movimiento Pull-Up
 class PremiumPullUpProgressBar extends StatefulWidget {
@@ -87,6 +88,7 @@ class _PremiumPullUpProgressBarState extends State<PremiumPullUpProgressBar>
           barHeight: widget.barHeight,
           pulseAnimation: _pulseAnimation,
           progressAnimation: _progressAnimation,
+          l10n: AppLocalizations.of(context)!,
         ),
       ),
     );
@@ -99,6 +101,7 @@ class PullUpProgressPainter extends CustomPainter {
   final double barHeight;
   final Animation<double> pulseAnimation;
   final Animation<double> progressAnimation;
+  final AppLocalizations l10n;
 
   PullUpProgressPainter({
     required this.counter,
@@ -106,6 +109,7 @@ class PullUpProgressPainter extends CustomPainter {
     required this.barHeight,
     required this.pulseAnimation,
     required this.progressAnimation,
+    required this.l10n,
   }) : super(repaint: Listenable.merge([pulseAnimation, progressAnimation]));
 
   @override
@@ -255,7 +259,7 @@ class PullUpProgressPainter extends CustomPainter {
     _drawTimeBox(
       canvas,
       Offset(center.dx - radius - 60, center.dy - 40),
-      'ARRIBA',
+      l10n.phaseUp,
       upTime,
       AppColors.successGreen,
     );
@@ -264,7 +268,7 @@ class PullUpProgressPainter extends CustomPainter {
     _drawTimeBox(
       canvas,
       Offset(center.dx + radius + 20, center.dy + 20),
-      'ABAJO',
+      l10n.phaseDown,
       downTime,
       AppColors.primaryCyan,
     );
@@ -366,11 +370,11 @@ class PullUpProgressPainter extends CustomPainter {
   String _getPhaseText(PullUpPhase phase) {
     switch (phase) {
       case PullUpPhase.up:
-        return '↑ SUBIENDO';
+        return '↑ ${l10n.phaseRising}';
       case PullUpPhase.down:
-        return '↓ BAJANDO';
+        return '↓ ${l10n.phaseLowering}';
       case PullUpPhase.transition:
-        return '~ TRANSICIÓN';
+        return '~ ${l10n.phaseTransition}';
     }
   }
 

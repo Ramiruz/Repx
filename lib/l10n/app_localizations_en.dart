@@ -511,4 +511,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get personalizedTrainingDesc => 'Find exercises for specific muscles';
+
+  @override
+  String get calibrateBar => 'CALIBRATE BAR';
+
+  @override
+  String get alignLine => 'Align the cyan line with your bar';
+
+  @override
+  String get adjustBar => 'ADJUST BAR';
+
+  @override
+  String get confirmPosition => 'CONFIRM POSITION';
+
+  @override
+  String get adjustUp => 'UP';
+
+  @override
+  String get adjustDown => 'DOWN';
+
+  @override
+  String get recalibrateBar => 'Recalibrate bar';
+
+  @override
+  String get hangFromBar => 'Hang from the bar';
+
+  @override
+  String get startTraining => 'START TRAINING';
+
+  @override
+  String get continueToCalibration => 'CONTINUE TO CALIBRATION';
+
+  @override
+  String get phaseUp => 'UP';
+
+  @override
+  String get phaseDown => 'DOWN';
+
+  @override
+  String get phaseRising => 'RISING';
+
+  @override
+  String get phaseLowering => 'LOWERING';
+
+  @override
+  String get phaseTransition => 'TRANSITION';
+
+  @override
+  String get tempo => 'TEMPO';
+
+  @override
+  String get form => 'FORM';
 }

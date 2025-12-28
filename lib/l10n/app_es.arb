@@ -192,5 +192,23 @@
   "squats": "Sentadillas",
   "abdominals": "Abdominales",
   "personalizedTraining": "Entrenamiento Personalizado",
-  "personalizedTrainingDesc": "Encuentra ejercicios para músculos específicos"
+  "personalizedTrainingDesc": "Encuentra ejercicios para músculos específicos",
+
+  "calibrateBar": "CALIBRAR BARRA",
+  "alignLine": "Alinea la línea cyan con tu barra",
+  "adjustBar": "AJUSTAR BARRA",
+  "confirmPosition": "CONFIRMAR POSICIÓN",
+  "adjustUp": "SUBIR",
+  "adjustDown": "BAJAR",
+  "recalibrateBar": "Recalibrar barra",
+  "hangFromBar": "Cuélgate de la barra",
+  "startTraining": "COMENZAR ENTRENAMIENTO",
+  "continueToCalibration": "CONTINUAR A CALIBRACIÓN",
+  "phaseUp": "ARRIBA",
+  "phaseDown": "ABAJO",
+  "phaseRising": "SUBIENDO",
+  "phaseLowering": "BAJANDO",
+  "phaseTransition": "TRANSICIÓN",
+  "tempo": "RITMO",
+  "form": "FORMA"
 }
