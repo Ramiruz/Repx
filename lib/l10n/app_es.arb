@@ -134,7 +134,8 @@
   "durationLabel": "Duración",
 
   "fitnessTest": "PRUEBA DE FITNESS",
-  "fitnessTestCard": "FITNESS TEST",
+  "fitnessTestCard": "TEST DE FITNESS",
+  "fitnessTestDetails": "3 ejercicios • 3 minutos",
   "fitnessTestSubtitle": "Evalúa tu nivel",
   "instructions": "Instrucciones",
   "instructionsDesc": "Esta prueba mide tu nivel físico en 3 minutos, evaluando 3 ejercicios consecutivos con períodos de descanso entre cada uno.",

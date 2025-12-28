@@ -135,6 +135,7 @@
 
   "fitnessTest": "FITNESS TEST",
   "fitnessTestCard": "FITNESS TEST",
+  "fitnessTestDetails": "3 exercises • 3 minutes",
   "fitnessTestSubtitle": "Evaluate your level",
   "instructions": "Instructions",
   "instructionsDesc": "This test measures your fitness level in 3 minutes, evaluating 3 consecutive exercises with rest periods between each one.",

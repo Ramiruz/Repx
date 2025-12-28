@@ -25,7 +25,7 @@ class CounterDisplay extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: DrawingUtils.accentColor.withOpacity(0.3),
+            color: DrawingUtils.accentColor.withValues(alpha: 0.3),
             blurRadius: 20,
             spreadRadius: 2,
           ),
@@ -119,7 +119,7 @@ class CounterDisplay extends StatelessWidget {
               Container(
                 height: 12,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -134,7 +134,7 @@ class CounterDisplay extends StatelessWidget {
                       BoxShadow(
                         color: DrawingUtils.getQualityColor(
                           formQuality,
-                        ).withOpacity(0.5),
+                        ).withValues(alpha: 0.5),
                         blurRadius: 8,
                       ),
                     ],
@@ -163,4 +163,3 @@ class CounterDisplay extends StatelessWidget {
     }
   }
 }
-

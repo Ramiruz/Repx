@@ -151,7 +151,7 @@ class PullUpProgressPainter extends CustomPainter {
 
   void _drawDiagonalTrack(Canvas canvas, Offset center, double radius) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
+      ..color = Colors.white.withValues(alpha: 0.1)
       ..strokeWidth = 8
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
@@ -183,7 +183,7 @@ class PullUpProgressPainter extends CustomPainter {
         break;
     }
 
-    paint.color = progressColor.withOpacity(0.8);
+    paint.color = progressColor.withValues(alpha: 0.8);
 
     final rect =
         Rect.fromCenter(center: center, width: radius * 2, height: radius * 2);
@@ -240,7 +240,7 @@ class PullUpProgressPainter extends CustomPainter {
 
     // Efecto de pulso
     final pulsePaint = Paint()
-      ..color = AppColors.primaryCyan.withOpacity(0.3)
+      ..color = AppColors.primaryCyan.withValues(alpha: 0.3)
       ..style = PaintingStyle.fill;
 
     canvas.drawCircle(headPoint, 12 * pulseAnimation.value, pulsePaint);
@@ -278,13 +278,13 @@ class PullUpProgressPainter extends CustomPainter {
     );
 
     final paint = Paint()
-      ..color = color.withOpacity(0.15)
+      ..color = color.withValues(alpha: 0.15)
       ..style = PaintingStyle.fill;
 
     canvas.drawRRect(rect, paint);
 
     final borderPaint = Paint()
-      ..color = color.withOpacity(0.4)
+      ..color = color.withValues(alpha: 0.4)
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
@@ -393,4 +393,3 @@ class PullUpProgressPainter extends CustomPainter {
         oldDelegate.progressAnimation.value != progressAnimation.value;
   }
 }
-

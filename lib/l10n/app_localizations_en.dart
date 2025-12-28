@@ -356,6 +356,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fitnessTestCard => 'FITNESS TEST';
 
   @override
+  String get fitnessTestDetails => '3 exercises • 3 minutes';
+
+  @override
   String get fitnessTestSubtitle => 'Evaluate your level';
 
   @override

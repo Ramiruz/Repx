@@ -142,8 +142,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 radius: 1.8,
                 colors: [
                   Colors.transparent,
-                  AppColors.darkBg.withOpacity(0.3),
-                  AppColors.darkBg.withOpacity(0.7),
+                  AppColors.darkBg.withValues(alpha: 0.3),
+                  AppColors.darkBg.withValues(alpha: 0.7),
                 ],
               ),
             ),
@@ -224,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             shaderCallback: (bounds) => LinearGradient(
               colors: [
                 Colors.white,
-                AppColors.primaryCyan.withOpacity(0.9),
+                AppColors.primaryCyan.withValues(alpha: 0.9),
                 Colors.white,
               ],
               stops: const [0.0, 0.5, 1.0],
@@ -249,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             style: TextStyle(
               fontSize: isSmallScreen ? 16 : 20,
               fontWeight: FontWeight.w300,
-              color: AppColors.primaryCyan.withOpacity(0.8),
+              color: AppColors.primaryCyan.withValues(alpha: 0.8),
               letterSpacing: 14,
             ),
           ),
@@ -277,13 +277,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           boxShadow: [
             // Glow exterior amplio
             BoxShadow(
-              color: AppColors.primaryCyan.withOpacity(_orbGlow.value * 0.3),
+              color:
+                  AppColors.primaryCyan.withValues(alpha: _orbGlow.value * 0.3),
               blurRadius: 60,
               spreadRadius: 20,
             ),
             // Glow medio
             BoxShadow(
-              color: AppColors.primaryPurple.withOpacity(_orbGlow.value * 0.2),
+              color: AppColors.primaryPurple
+                  .withValues(alpha: _orbGlow.value * 0.2),
               blurRadius: 40,
               spreadRadius: 10,
             ),
@@ -299,19 +301,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 center: const Alignment(-0.3, -0.3),
                 radius: 0.8,
                 colors: [
-                  AppColors.primaryCyan.withOpacity(0.4),
-                  AppColors.primaryPurple.withOpacity(0.3),
-                  AppColors.cardBg.withOpacity(0.8),
+                  AppColors.primaryCyan.withValues(alpha: 0.4),
+                  AppColors.primaryPurple.withValues(alpha: 0.3),
+                  AppColors.cardBg.withValues(alpha: 0.8),
                 ],
               ),
               border: Border.all(
-                color: AppColors.primaryCyan.withOpacity(_orbGlow.value),
+                color: AppColors.primaryCyan.withValues(alpha: _orbGlow.value),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color:
-                      AppColors.primaryCyan.withOpacity(_orbGlow.value * 0.5),
+                  color: AppColors.primaryCyan
+                      .withValues(alpha: _orbGlow.value * 0.5),
                   blurRadius: 20,
                   spreadRadius: 2,
                 ),
@@ -339,10 +341,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.cardBg.withOpacity(0.4),
+        color: AppColors.cardBg.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 0.1),
           width: 1,
         ),
       ),
@@ -357,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primaryCyan.withOpacity(0.5),
+                  color: AppColors.primaryCyan.withValues(alpha: 0.5),
                   blurRadius: 6,
                 ),
               ],
@@ -367,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Text(
             l10n.aiPoweredTraining,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.6),
+              color: Colors.white.withValues(alpha: 0.6),
               fontSize: 12,
               fontWeight: FontWeight.w500,
               letterSpacing: 1.5,
@@ -382,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primaryPurple.withOpacity(0.5),
+                  color: AppColors.primaryPurple.withValues(alpha: 0.5),
                   blurRadius: 6,
                 ),
               ],
@@ -407,10 +409,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
         decoration: BoxDecoration(
-          color: AppColors.cardBg.withOpacity(0.4),
+          color: AppColors.cardBg.withValues(alpha: 0.4),
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: AppColors.primaryCyan.withOpacity(0.5),
+            color: AppColors.primaryCyan.withValues(alpha: 0.5),
             width: 1.5,
           ),
         ),
@@ -496,6 +498,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   /// Card Fitness Test con diseño limpio
   Widget _buildFitnessTestCard(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -506,10 +509,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.cardBg.withOpacity(0.5),
+          color: AppColors.cardBg.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: AppColors.primaryPurple.withOpacity(0.3),
+            color: AppColors.primaryPurple.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -518,7 +521,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.primaryPurple.withOpacity(0.2),
+                color: AppColors.primaryPurple.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -533,9 +536,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'FITNESS TEST',
+                    l10n.fitnessTestCard,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.95),
+                      color: Colors.white.withValues(alpha: 0.95),
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1,
@@ -543,9 +546,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '3 ejercicios • 3 minutos',
+                    l10n.fitnessTestDetails,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
+                      color: Colors.white.withValues(alpha: 0.5),
                       fontSize: 12,
                     ),
                   ),
@@ -554,7 +557,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             Icon(
               Icons.chevron_right_rounded,
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.white.withValues(alpha: 0.4),
               size: 24,
             ),
           ],
@@ -578,10 +581,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             decoration: BoxDecoration(
-              color: AppColors.cardBg.withOpacity(0.3),
+              color: AppColors.cardBg.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(18),
               border: Border.all(
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -829,7 +832,7 @@ class _PremiumButtonState extends State<_PremiumButton>
               border: widget.borderColor != null
                   ? Border.all(
                       color: widget.borderColor!
-                          .withOpacity(0.5 + _glow.value * 0.3),
+                          .withValues(alpha: 0.5 + _glow.value * 0.3),
                       width: 1.5,
                     )
                   : null,
@@ -837,7 +840,7 @@ class _PremiumButtonState extends State<_PremiumButton>
                   ? [
                       BoxShadow(
                         color: widget.borderColor!
-                            .withOpacity(0.2 + _glow.value * 0.2),
+                            .withValues(alpha: 0.2 + _glow.value * 0.2),
                         blurRadius: 16 + _glow.value * 8,
                         spreadRadius: _glow.value * 2,
                       ),
@@ -889,8 +892,8 @@ class AuroraPainter extends CustomPainter {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        AppColors.primaryCyan.withOpacity(0.08),
-        AppColors.primaryCyan.withOpacity(0.03),
+        AppColors.primaryCyan.withValues(alpha: 0.08),
+        AppColors.primaryCyan.withValues(alpha: 0.03),
         Colors.transparent,
       ],
     ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -921,8 +924,8 @@ class AuroraPainter extends CustomPainter {
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
       colors: [
-        AppColors.primaryPurple.withOpacity(0.06),
-        AppColors.primaryPurple.withOpacity(0.02),
+        AppColors.primaryPurple.withValues(alpha: 0.06),
+        AppColors.primaryPurple.withValues(alpha: 0.02),
         Colors.transparent,
       ],
     ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -1001,7 +1004,7 @@ class DepthParticlesPainter extends CustomPainter {
 
       paint.color =
           (particle.isCyan ? AppColors.primaryCyan : AppColors.primaryPurple)
-              .withOpacity(particle.opacity);
+              .withValues(alpha: particle.opacity);
 
       canvas.drawCircle(Offset(x, y), particle.size, paint);
     }

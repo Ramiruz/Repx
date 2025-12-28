@@ -353,7 +353,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get fitnessTest => 'PRUEBA DE FITNESS';
 
   @override
-  String get fitnessTestCard => 'FITNESS TEST';
+  String get fitnessTestCard => 'TEST DE FITNESS';
+
+  @override
+  String get fitnessTestDetails => '3 ejercicios • 3 minutos';
 
   @override
   String get fitnessTestSubtitle => 'Evalúa tu nivel';

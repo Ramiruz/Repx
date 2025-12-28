@@ -785,8 +785,14 @@ abstract class AppLocalizations {
   /// No description provided for @fitnessTestCard.
   ///
   /// In es, this message translates to:
-  /// **'FITNESS TEST'**
+  /// **'TEST DE FITNESS'**
   String get fitnessTestCard;
+
+  /// No description provided for @fitnessTestDetails.
+  ///
+  /// In es, this message translates to:
+  /// **'3 ejercicios • 3 minutos'**
+  String get fitnessTestDetails;
 
   /// No description provided for @fitnessTestSubtitle.
   ///
